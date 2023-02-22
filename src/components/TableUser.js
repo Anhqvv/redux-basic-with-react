@@ -1,18 +1,14 @@
-import axios from 'axios'
 import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAllUsers } from '../redux/action/action'
 function TableUser () {
-  const [listUsers, setListUsers] = useState([])
-  const fetchAllUser = async () => {
-    const res = await axios.get('http://localhost:8081/users/all')
-    const data = res && res.data ? res.data : []
-    setListUsers(data)
-  }
+  const dispatch = useDispatch()
+  const listUsers = useSelector(state => state.user.listUsers)
+  //call api
   useEffect(() => {
-    fetchAllUser()
+    dispatch(fetchAllUsers())
   }, [])
-  console.log('listUsers:', listUsers)
   return (
     <Table striped bordered hover>
       <thead>
@@ -21,6 +17,7 @@ function TableUser () {
           <th>Email</th>
           <th>Password</th>
           <th>Username</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +30,9 @@ function TableUser () {
                 <td>{user.email}</td>
                 <td>{user.password}</td>
                 <td>{user.username}</td>
+                <td>
+                  <button className='btn btn-danger'>Delete</button>
+                </td>
               </tr>
             )
           })}
