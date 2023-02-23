@@ -9,6 +9,7 @@ const Home = props => {
       <Header />
       <Container>
         <FormAddNew />
+        <hr/>
         <TableUser />
       </Container>
     </>
