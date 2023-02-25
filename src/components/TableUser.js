@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllUsers } from '../redux/action/action'
+import { deleteUserRedux, fetchAllUsers } from '../redux/action/action'
 function TableUser () {
   const dispatch = useDispatch()
   const listUsers = useSelector(state => state.user.listUsers)
@@ -12,6 +12,11 @@ function TableUser () {
   useEffect(() => {
     dispatch(fetchAllUsers())
   }, [])
+
+  const handleDeleteUser = (id) => {
+    dispatch(deleteUserRedux(id))
+    
+  }
   return (
     <Table striped bordered hover>
       <thead>
@@ -45,7 +50,12 @@ function TableUser () {
                           <td>{user.email}</td>
                           <td>{user.username}</td>
                           <td>
-                            <button className='btn btn-danger'>Delete</button>
+                            <button
+                              className='btn btn-danger'
+                              onClick={() => handleDeleteUser(user.id)}
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       )

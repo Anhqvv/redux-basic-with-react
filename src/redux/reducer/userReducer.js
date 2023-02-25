@@ -2,6 +2,9 @@ import {
   CREATE_USER_ERROR,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
+  DELETE_USER_ERROR,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
   FETCH_USER_ERROR,
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS
@@ -11,7 +14,8 @@ const INITIAL_STATE = {
   listUsers: [],
   isLoading: false,
   isError: false,
-  isCreatting: false
+  isCreatting: false,
+  isDeleting: false
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -49,17 +53,33 @@ const userReducer = (state = INITIAL_STATE, action) => {
       }
 
     case CREATE_USER_SUCCESS:
-
       return {
         ...state,
         listUsers: action.dataUsers,
         isCreatting: false
       }
     case CREATE_USER_ERROR:
-
       return {
         ...state,
         isCreatting: false
+      }
+    //deleteUserRedux
+    case DELETE_USER_REQUEST:
+      return {
+        ...state,
+        isDeleting: true
+      }
+
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        listUsers: action.dataUsers,
+        isDeleting: false
+      }
+    case DELETE_USER_ERROR:
+      return {
+        ...state,
+        isDeleting: false
       }
 
     default:

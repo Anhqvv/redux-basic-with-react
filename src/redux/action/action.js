@@ -7,7 +7,10 @@ import {
   FETCH_USER_ERROR,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
-  CREATE_USER_ERROR
+  CREATE_USER_ERROR,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_ERROR
 } from './type'
 
 export const increaseCounter = () => {
@@ -82,12 +85,46 @@ export const createUserRequest = () => {
 
 export const createUserSuccess = () => {
   return {
-    type: CREATE_USER_SUCCESS,
+    type: CREATE_USER_SUCCESS
   }
 }
 
 export const createUserError = () => {
   return {
     type: CREATE_USER_ERROR
+  }
+}
+//deleteUserRedux
+export const deleteUserRedux = id => {
+  return async (dispatch, getstate) => {
+    dispatch(deleteUserRequest())
+    console.log('checking id from redux:', id)
+    try {
+      let res = await axios.post(`http://localhost:8082/users/delete/${id}`)
+      if (res && res.data && res.data.errCode === 0) {
+        dispatch(deleteUserSuccess())
+        dispatch(fetchAllUsers())
+      }
+      console.log('res delete redux', res)
+    } catch (error) {
+      dispatch(deleteUserError(error))
+    }
+  }
+}
+export const deleteUserRequest = () => {
+  return {
+    type: DELETE_USER_REQUEST
+  }
+}
+
+export const deleteUserSuccess = () => {
+  return {
+    type: DELETE_USER_SUCCESS
+  }
+}
+
+export const deleteUserError = () => {
+  return {
+    type: DELETE_USER_ERROR
   }
 }
